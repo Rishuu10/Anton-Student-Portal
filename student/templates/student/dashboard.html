@@ -1,0 +1,218 @@
+{% load static %}
+
+<html>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+	integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href={% static 'student/css/dashboard.css' %} />
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&display=swap" rel="stylesheet">
+<head>
+    <style>
+      #zoom {
+       border: 2px;
+       visibility :"hidden";
+       height: 0px;
+       width: 0px;
+       position: absolute;
+       z-index: 9;
+    }
+    table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 50%;
+  }
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+  </style>
+</head>
+<body>
+        <ul>
+            <li><a href={% url 'user:logout' %} style="float:right;padding-left:20px ;text-decoration : none"> Logout</a></li>
+            <li><a href="/" style="float:right;padding-left:20px; text-decoration : none" >Home</a></li>
+        </ul>
+        <div class="dropdown" style="">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Welcome {{student.first_name}} {{student.last_name}}
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">Email : {{student.email}}</a>
+            <a class="dropdown-item" href="#">Phone No: {{student.phone_number}}</a>
+            <a class="dropdown-item" href={% url 'user:signup' %}>Edit Profile</a>
+            <a class="dropdown-item" href="#">Change password</a>
+          </div>
+        </div>
+    <div class="welcome">
+        <h1 style="margin-bottom : 30px;"> Anton Student Portal </h1> 
+    </div>
+    <div id="quizId">
+      <h3 style="text-decoration: underline; margin-bottom: 1rem;">Quiz Session</h3>
+      <p style="text-align: center;">{{tot_ans}} questions done out of {{tot_qs}}</p>
+      {% if active_qs %}
+      <h5 style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid black;">Current Available Question</h5>
+      <div class="que_box">
+        <h4 class="que_text">Question. {{active_qs.question.text}}</h4>
+        {% for opt in active_qs.question.options.all %}
+          <input type="radio" id="{{opt.id}}" name="ques" value="{{opt.id}}">
+          <label for="{{opt.id}}">{{opt.text}}</label><br>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    <div style="display: flex; justify-content: center; margin-top: 2rem; margin-bottom: 2rem;">
+      <button type="button" class="answerBtn">Submit Answer</button>
+      </div>
+<div class="student_dashboard_container">
+	<div>
+<div id="classschedule">
+<table style="width: 100%;">
+	<div style="width: 100%;">
+  <h3 style="text-align: center;">Class Schedule</h3>
+</div>
+  <tr>
+    <th>Subject</th>
+    <th>Time</th>
+    <th>Zoom Link</th>
+  </tr>
+  {% for t in tt %}
+  <tr>
+    <td>{{t.name}}</td>
+    <td>{{t.time_duration}}</td>
+    <!-- <td><a href={{t.link}} target="__blank">Join Class</a></td> -->
+    <td><a onclick=myFunction(displayFunction()) href="javascript:void(0);">Join Class</a></td>
+
+  </tr>
+  {% endfor %}
+   <tr>
+    <td>Physics</td>
+    <td>11-12PM</td>
+    <td><a onclick="myFunction(displayFunction())" href="https://us04web.zoom.us/j/76381298245">Join Class</a></td>
+  </tr>
+  <tr>
+    <td>Chemistry</td>
+    <td>11-12PM</td>
+    <td><a onclick="myFunction(displayFunction())" href="https://us04web.zoom.us/j/76381298245">Join Class</a></td>
+  </tr>
+  <tr>
+    <td>English</td>
+    <td>11-12PM</td>
+    <td><a onclick="myFunction(displayFunction())" href="https://us04web.zoom.us/j/76381298245">Join Class</a></td>
+  </tr> 
+  <tr>
+    <td>Soft Skills</td>
+    <td>11-12PM</td>
+    <td><a onclick="myFunction(displayFunction())" href="https://us04web.zoom.us/j/76381298245">Join Class</a></td>
+    
+  </tr> 
+</table>
+</div>
+    <div class="container" style="overflow-y: hidden; overflow-x: hidden">
+      <div class="row">
+        <div class="col">
+        <button onclick="displayFunction()" id="btn" style="display: none; width: 100px; border-radius: 15px; margin-bottom: 10px;">Back</button>
+        <div id='zoom' class='iframe-container' style='overflow-y: hidden;overflow-x: hidden; padding-top: 56.25%; position: relative;'> 
+            <iframe
+             id="ifr"
+                allow='microphone; camera' style='border:0; height: 70%; left: 0; position: absolute; top: 0; width: 70%;''
+                src=x frameborder='0'>
+            </iframe> 
+        </div>
+        
+        </div>
+      </div>
+    </div>
+</div>
+</div>
+
+
+</div>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+	function displayFunction() {
+	 document.getElementById("classschedule").style.display = "block";
+	 document.getElementById("zoom").style.display = "block";
+	 document.getElementById("btn").style.display = "block";
+	 document.getElementsByClassName("col")[0].style.display = "700px";
+	}
+	   function myFunction(url) {
+		   document.getElementById('ifr').src =url;
+		   document.getElementById("zoom").style.height = "700px";
+		   document.getElementById("zoom").style.width = "1200px";
+		   document.getElementById("zoom").style.display = "block";
+		   document.getElementById("zoom").style.visibility = "visible";
+		   document.getElementById("classschedule").style.display = "block";
+		   document.getElementById("btn").style.display = "block";
+	   }
+   </script>
+<script>
+	let lastBlur = new Date();
+	window.addEventListener('focus',function(){
+		var d = new Date();
+		var diff = Math.abs(d - lastBlur);
+		const diffSecs = Math.ceil(diff / (1000)); 
+		$.ajax({
+			url: "/violation/ajax/createViolation/",
+			data: {
+				text: `User was away for ${diffSecs} seconds`,
+			},
+			dataType: "json",
+			success: function (data) {
+				if (data.is_taken) {
+				alert("A user with this username already exists.");
+				}
+			},
+		});
+	})
+	window.addEventListener('blur',function(){
+		lastBlur = new Date();
+	})
+</script>
+<script>
+	$(".answerBtn").on("click", function(e) {
+		var ansId = $('input[name=ques]:checked').val();
+		console.log(ansId)
+		if(!ansId) {
+			alert("Option not selected");
+			return;
+		}
+		$.ajax({
+			url: "/qa/ajax/answerQuestion/",
+			data: {
+				option_id: ansId
+			},
+			dataType: "json",
+			success: function (data) {
+				console.log(data)
+				$("#quizId").html(data)
+			},
+		});
+	})
+</script>
+<script>
+  setInterval(function() {
+  $.ajax({
+    url: "/qa/ajax/answerQuestion/",
+      data: {
+        option_id: -1,
+      },
+      dataType: "json",
+      success: function (data) {
+        console.log(data)
+         $("#quizId").html(data)
+        },
+      });
+    }, 4500)
+</script>
+</body>

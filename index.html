@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<head>
+	<title> Tab Switch Detection </title>
+</head>
+<body>
+	<h1> Tab Switching Frequency </h1>
+	<div id='obj'></div>
+	<script>
+		var i=1;
+		window.addEventListener('focus',function(){
+			console.log(i);
+			var d = new Date(); 
+			console.log(d.getHours()+':'+d.getMinutes()+':'+d.getSeconds())
+			//document.getElementById('obj').innerHTML = #html
+			i++;
+		})
+	</script>
+</body>
+</html>

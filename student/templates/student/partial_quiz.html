@@ -1,0 +1,15 @@
+{% load static %}
+<div id="quizId">
+	<h3 style="text-decoration: underline; margin-bottom: 1rem;">Quiz Session</h3>
+	<p style="text-align: center;">{{tot_ans}} questions done out of {{tot_qs}}</p>
+	{% if active_qs %}
+	<h5 style="margin-bottom: 1rem; border-bottom: 1px solid black;">Current Available Question</h5>
+	<div class="que_box">
+		<h4 class="que_text">Question. {{active_qs.question.text}}</h4>
+		{% for opt in active_qs.question.options.all %}
+			<input type="radio" id="{{opt.id}}" name="ques" value="{{opt.id}}">
+			<label for="{{opt.id}}">{{opt.text}}</label><br>
+		{% endfor %}
+	</div>
+	{% endif %}
+</div>

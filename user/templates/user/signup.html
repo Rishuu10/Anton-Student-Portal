@@ -1,0 +1,133 @@
+{% extends "base.html" %} 
+{% block content %} 
+{% load static %}
+{% load user_extras %} 
+{% block head %}
+<link rel="stylesheet" href={% static 'user/css/signup.css' %} />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+{% endblock %}
+<h5>{{ form.non_field_errors|errorOnly }}</h5>
+<center><h2> SIGNUP FORM </h2></center>
+<div class = "container">
+<form method="POST" id="f">
+  {% csrf_token %}
+  <div class="form-group">
+    <label><i class="fa fa-user" aria-hidden="true"></i> Email <label>
+  </div>
+  <h5>{{ form.email.errors|errorOnly }}</h5>
+  <input class="c"
+    type="email"
+    name="email"
+    placeholder="Email"
+    required
+    value="{{form.cleaned_data.email}}"
+  />
+
+  <div class="form-group">
+    <label><i class="fa fa-user" aria-hidden="true"></i> First Name <label>
+  </div>
+  <h5>{{ form.first_name.errors|errorOnly }}</h5>
+  <input class="c"
+    type="text"
+    name="first_name"
+    placeholder="First Name"
+    required
+    value="{{form.cleaned_data.first_name}}"
+  />
+
+  <div class="form-group">
+    <label><i class="fa fa-user" aria-hidden="true"></i> Last Name <label>
+  
+  </div>
+  <h5>{{ form.last_name.errors|errorOnly }}</h5>
+  <input class="c"
+    type="text"
+    name="last_name"
+    placeholder="Last Name"
+    required
+    value="{{form.cleaned_data.last_name}}"
+  />
+
+  <div class="form-group">
+    <label><i class="fa fa-user" aria-hidden="true"></i> Gender <label>
+  
+  </div>
+  <h5>{{ form.gender.errors|errorOnly }}</h5>
+  <select class="c" name="gender" required value="{{form.cleaned_data.gender}}">
+    {% for gender in gender_choices %}
+    <option value="{{gender.1}}">{{gender.1}}</option>
+    {% endfor %}
+  </select>
+
+  <div class="form-group">
+    <label><i class="fa fa-user" aria-hidden="true"></i> User_type <label>
+   
+  </div>
+  <h5>{{ form.user_type.errors|errorOnly }}</h5>
+  <select class="c" name="user_type" required value="{{form.cleaned_data.user_type}}">
+    {% for user in user_choices %}
+    <option value="{{user.1}}">{{user.1}}</option>
+    {% endfor %}
+  </select>
+
+  <div class="form-group">
+    <label><i class="fa fa-user" aria-hidden="true"></i> Age <label>
+   
+  </div>
+  <h5>{{ form.age.errors|errorOnly }}</h5>
+  <input class="c"
+    type="number"
+    min="13"
+    name="age"
+    placeholder="Age"
+    required
+    value="{{form.cleaned_data.age}}"
+  />
+
+  <div class="form-group">
+    <label><i class="fa fa-user" aria-hidden="true"></i> Phone Number <label>
+    
+  </div>
+  <h5>{{ form.age.phone_number|errorOnly }}</h5>
+  <input class="c"
+    type="number"
+    name="phone_number"
+    placeholder="Phone Number"
+    required
+    value="{{form.cleaned_data.phone_number}}"
+  />
+
+  <div class="form-group">
+    <label><i class="fa fa-lock" aria-hidden="true"></i>Password<label>
+      
+  </div>
+  <h5>{{ form.password.errors|errorOnly }}</h5>
+  <input class="c"
+    type="password"
+    name="password"
+    autocomplete="new-password"
+    placeholder="Enter Password"
+    required
+    minlength="8"
+    value="{{form.cleaned_data.password}}"
+  />
+
+  <div class="form-group">
+    <label><i class="fa fa-lock" aria-hidden="true"></i> Confirm Password<label>
+      
+  </div>
+  <input class="c"
+    type="password"
+    name="confirmpassword"
+    placeholder=" Confirm Password"
+    minlength="8"
+    value="{{form.cleaned_data.password}}"
+  />
+  <br><br>
+  <button class="btn btn-primary">Submit </button>
+  
+
+</form>
+  </div>
+{% endblock %}
